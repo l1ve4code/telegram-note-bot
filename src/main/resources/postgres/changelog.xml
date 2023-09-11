@@ -4,7 +4,11 @@
     <!--SCHEMA-->
     <include file="schema/telegram.sql" relativeToChangelogFile="true"/>
 
+    <!--ENUM-->
+    <include file="enum/state_enum_value.sql" relativeToChangelogFile="true"/>
+
     <!--TABLE-->
     <include file="table/notes.sql" relativeToChangelogFile="true"/>
+    <include file="table/states.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
