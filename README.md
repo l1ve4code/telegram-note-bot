@@ -10,7 +10,7 @@ Telegram-bot - for storing user notes, with the ability to share your notes with
 * ✅ Integrate a database and start using it instead of a **List**;
 * ✅ Add text and hints for existing commands;
 * ✅ Add the ability to automatically generate a table structure in the database for easy deployment of the project;
-* ❌ Add the ability to work with the bot using the **(reply/ inline) keyboard**;
+* ✅ Add the ability to work with the bot using the **(reply/ inline) keyboard**;
 * ❌ Add the ability to share your notes with other users;
 * ❌ Add the ability to create notifications;
 * ❌ Make a Dockerfile to run the project.
