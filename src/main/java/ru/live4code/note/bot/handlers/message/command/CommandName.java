@@ -10,6 +10,7 @@ public enum CommandName {
     START("/start"),
     NOTE("/note"),
     NOTES("/notes"),
+    MENU("/menu"),
     HELP("/help"),
     UNKNOWN("/unknown"),
     STOP("/stop");

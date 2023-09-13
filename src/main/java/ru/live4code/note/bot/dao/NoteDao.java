@@ -29,20 +29,16 @@ public class NoteDao {
         );
     }
 
-    public String getNote(Long chatId, Long id) {
-        return namedParameterJdbcTemplate.query(
+    public void deleteNote(Long chatId, Long noteId) {
+        namedParameterJdbcTemplate.update(
                 """
-                    select note
-                    from telegram.notes
-                    where 
-                        chatId = :chatId
-                        and id = :id
+                    delete from telegram.notes
+                    where chatId = :chatId and id = :noteId
                     """.trim(),
                 new MapSqlParameterSource()
-                        .addValue("id", id)
-                        .addValue("chatId", chatId),
-                (rs, rn) -> rs.getString("note")
-        ).stream().findFirst().orElse(null);
+                        .addValue("chatId", chatId)
+                        .addValue("noteId", noteId)
+        );
     }
 
     public List<Note> getNotes(Long chatId) {
