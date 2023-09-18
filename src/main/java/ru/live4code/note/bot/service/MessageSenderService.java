@@ -29,7 +29,7 @@ public class MessageSenderService extends DefaultAbsSender {
         Resource resource = new ClassPathResource("images/keyboard-title.png");
 
         try {
-            message.setPhoto(new InputFile(resource.getFile()));
+            message.setPhoto(new InputFile(resource.getInputStream(), "keyboard-title.png"));
         } catch (IOException exception) {
             log.error("Error while getting image: %s", exception);
         }
