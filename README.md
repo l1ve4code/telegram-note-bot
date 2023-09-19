@@ -13,7 +13,7 @@ Telegram-bot - for storing user notes, with the ability to share your notes with
 * ✅ Add the ability to work with the bot using the **(reply/ inline) keyboard**;
 * ❌ Add the ability to share your notes with other users;
 * ❌ Add the ability to create notifications;
-* ❌ Make a Dockerfile to run the project.
+* ✅ Make a Dockerfile to run the project.
 
 ### Technologies
 
@@ -30,7 +30,7 @@ Telegram-bot - for storing user notes, with the ability to share your notes with
 git clone https://github.com/l1ve4code/telegram-note-bot.git
 ```
 
-### Set your values in docker-compose.yml
+### Set your values in postgres.yml or production.yml
 
 _(For example: username, password and etc, or **use defaults**)_
 
@@ -65,17 +65,23 @@ telegram.bot.name=<your-bot-name>
 telegram.bot.token=<your-bot-token>
 ```
 
-### Project startup
+### Project startup _(using IDE)_
 
 First, you need to run docker-compose
 
 ```shell
-docker-compose up
+docker-compose -f postgres.yml up
 ```
 
 Then you need to start the Java project using your IDE
 
-_(Convenient opportunity to launch the project will be later)_
+### Project startup _(using Docker)_
+
+Just run this command and project will be built and launched automatically
+
+```shell
+docker-compose -f production.yml up
+```
 
 Good luck ✨
 
