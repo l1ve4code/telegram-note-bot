@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.live4code.note.bot.constant.InlineKeyboardTemplates;
 import ru.live4code.note.bot.constant.MessageTemplates;
 import ru.live4code.note.bot.dao.NoteDao;
 import ru.live4code.note.bot.dao.StateDao;
@@ -26,6 +27,7 @@ public class CallbackHandler {
 
         CallbackQuery callbackQuery = update.getCallbackQuery();
         Long chatId = callbackQuery.getMessage().getChatId();
+        Integer messageId = callbackQuery.getMessage().getMessageId();
         CallbackType callback = CallbackType.fromString(callbackQuery.getData());
 
         if (callback == null) {
@@ -44,7 +46,12 @@ public class CallbackHandler {
             List<Note> userNote = noteDao.getNotes(chatId);
             String formattedNotes = userNote.stream().map(Note::toString).collect(Collectors.joining("\n"));
             String message = String.format("%s\n%s", MessageTemplates.NOTES_TEMPLATE, formattedNotes);
-            messageSenderService.sendMessage(chatId, message);
+            messageSenderService.editDefaultImageKeyboard(
+                    chatId, messageId, message, InlineKeyboardTemplates.getReturnMenu()
+            );
+        }
+        else if (CallbackType.RETURN_TO_MENU.equals(callback)) {
+            messageSenderService.editDefaultImageKeyboard(chatId, messageId, InlineKeyboardTemplates.getMenu());
         }
 
     }

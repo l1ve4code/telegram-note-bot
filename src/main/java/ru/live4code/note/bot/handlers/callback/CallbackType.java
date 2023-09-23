@@ -9,6 +9,7 @@ public enum CallbackType {
 
     CREATE_NOTE("=create-note"),
     DELETE_NOTE("=delete-note"),
+    RETURN_TO_MENU("=return-to-menu"),
     SHOW_NOTE("=show-note");
 
     private final String callbackType;
