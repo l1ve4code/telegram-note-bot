@@ -24,6 +24,10 @@ public class MessageTemplates {
             Here your recent added notes 👀
             """;
 
+    public final static String SHARED_NOTES_TEMPLATE = """
+            Here users shared notes 👀
+            """;
+
     public final static String START_TEMPLATE = """
             Hello ✋
             I'm note bot! 🤖

@@ -10,6 +10,7 @@ import ru.live4code.note.bot.dao.NoteDao;
 import ru.live4code.note.bot.dao.StateDao;
 import ru.live4code.note.bot.model.Note;
 import ru.live4code.note.bot.model.State;
+import ru.live4code.note.bot.model.SharedNote;
 import ru.live4code.note.bot.service.MessageSenderService;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class CallbackHandler {
 
         CallbackQuery callbackQuery = update.getCallbackQuery();
         Long chatId = callbackQuery.getMessage().getChatId();
+        String userName = callbackQuery.getFrom().getUserName();
         Integer messageId = callbackQuery.getMessage().getMessageId();
         CallbackType callback = CallbackType.fromString(callbackQuery.getData());
 
@@ -52,6 +54,22 @@ public class CallbackHandler {
         }
         else if (CallbackType.RETURN_TO_MENU.equals(callback)) {
             messageSenderService.editDefaultImageKeyboard(chatId, messageId, InlineKeyboardTemplates.getMenu());
+        }
+        else if (CallbackType.SHARE_NOTES.equals(callback)) {
+            stateDao.setUserState(chatId, State.SHARE_USERNAME_WAITING);
+            messageSenderService.sendMessage(chatId, "Write username below:");
+        }
+        else if (CallbackType.STOP_SHARE_NOTES.equals(callback)) {
+            stateDao.setUserState(chatId, State.STOP_SHARE_USERNAME_WAITING);
+            messageSenderService.sendMessage(chatId, "Write username below:");
+        }
+        else if (CallbackType.SHOW_USER_NOTES.equals(callback)) {
+            List<SharedNote> sharedNotes = noteDao.getSharedNotes(userName);
+            String formattedNotes = sharedNotes.stream().map(SharedNote::toString).collect(Collectors.joining("\n"));
+            String message = String.format("%s\n%s", MessageTemplates.SHARED_NOTES_TEMPLATE, formattedNotes);
+            messageSenderService.editDefaultImageKeyboard(
+                    chatId, messageId, message, InlineKeyboardTemplates.getReturnMenu()
+            );
         }
         else {
             messageSenderService.editDefaultImageKeyboard(

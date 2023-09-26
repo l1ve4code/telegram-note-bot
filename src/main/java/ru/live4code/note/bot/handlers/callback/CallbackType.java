@@ -11,6 +11,7 @@ public enum CallbackType {
     DELETE_NOTE("=delete-note"),
     RETURN_TO_MENU("=return-to-menu"),
     SHOW_NOTE("=show-note"),
+    SHOW_USER_NOTES("=show-user-notes"),
     SHARE_NOTES("=share-notes"),
     STOP_SHARE_NOTES("=stop-share-notes");
 

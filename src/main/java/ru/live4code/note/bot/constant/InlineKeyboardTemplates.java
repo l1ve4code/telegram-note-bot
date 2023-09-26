@@ -17,7 +17,10 @@ public class InlineKeyboardTemplates {
                         makeButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE.getCallbackType())
                 ))
                 .keyboardRow(List.of(
-                        makeButton("Show notes \uD83D\uDC40", CallbackType.SHOW_NOTE.getCallbackType())
+                        makeButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("Show user notes \uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC66\u200D\uD83D\uDC66", CallbackType.SHOW_USER_NOTES.getCallbackType())
                 ))
                 .keyboardRow(List.of(
                         makeButton("Share notes \uD83D\uDC65", CallbackType.SHARE_NOTES.getCallbackType())

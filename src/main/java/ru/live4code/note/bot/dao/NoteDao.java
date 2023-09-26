@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.live4code.note.bot.model.Note;
+import ru.live4code.note.bot.model.SharedNote;
 
 import java.util.List;
 
@@ -50,6 +51,20 @@ public class NoteDao {
                     """.trim(),
                 new MapSqlParameterSource("chatId", chatId),
                 (rs, rn) -> new Note(rs.getLong("id"), rs.getString("note"))
+        );
+    }
+
+    public List<SharedNote> getSharedNotes(String readUserName) {
+        return namedParameterJdbcTemplate.query(
+                """
+                    select s.shareUserName, n.note
+                    from telegram.shares s
+                    join telegram.users u on s.shareUserName = u.userName
+                    join telegram.notes n on n.chatId = u.chatId
+                    where s.readUserName = :readUserName
+                    """.trim(),
+                new MapSqlParameterSource("readUserName", readUserName),
+                (rs, rn) -> new SharedNote(rs.getString("shareUserName"), rs.getString("note"))
         );
     }
 
