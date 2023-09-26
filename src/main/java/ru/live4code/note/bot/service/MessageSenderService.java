@@ -61,10 +61,10 @@ public class MessageSenderService extends DefaultAbsSender {
 
     public void sendMessage(Long chatId, String text) {
 
-        var message = SendMessage.builder()
-                .chatId(chatId)
-                .text(text)
-                .build();
+        var message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(text);
+        message.enableHtml(true);
 
         try {
             execute(message);

@@ -11,9 +11,19 @@ public class InlineKeyboardTemplates {
     public static InlineKeyboardMarkup getMenu() {
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
-                        makeButton("Create note ✍️", CallbackType.CREATE_NOTE.getCallbackType()),
-                        makeButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE.getCallbackType()),
-                        makeButton("Show notes 👀", CallbackType.SHOW_NOTE.getCallbackType())
+                        makeButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("Show notes \uD83D\uDC40", CallbackType.SHOW_NOTE.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("Share notes \uD83D\uDC65", CallbackType.SHARE_NOTES.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("Stop share notes \uD83D\uDED1", CallbackType.STOP_SHARE_NOTES.getCallbackType())
                 ))
                 .build();
     }

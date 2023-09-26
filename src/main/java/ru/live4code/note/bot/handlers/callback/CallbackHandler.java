@@ -31,7 +31,7 @@ public class CallbackHandler {
         CallbackType callback = CallbackType.fromString(callbackQuery.getData());
 
         if (callback == null) {
-            messageSenderService.sendMessage(chatId, "Wow! I don't know this action 🤔");
+            messageSenderService.sendMessage(chatId, "Wow! I don't know this action \uD83E\uDD14");
         }
 
         if (CallbackType.CREATE_NOTE.equals(callback)) {
@@ -52,6 +52,11 @@ public class CallbackHandler {
         }
         else if (CallbackType.RETURN_TO_MENU.equals(callback)) {
             messageSenderService.editDefaultImageKeyboard(chatId, messageId, InlineKeyboardTemplates.getMenu());
+        }
+        else {
+            messageSenderService.editDefaultImageKeyboard(
+                    chatId, messageId, "Not implemented yet!", InlineKeyboardTemplates.getReturnMenu()
+            );
         }
 
     }
