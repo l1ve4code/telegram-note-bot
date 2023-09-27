@@ -2,7 +2,7 @@ package ru.live4code.note.bot.constant;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import ru.live4code.note.bot.handlers.callback.CallbackType;
+import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
 
 import java.util.List;
 

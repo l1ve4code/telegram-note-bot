@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.live4code.note.bot.dao.StateDao;
-import ru.live4code.note.bot.handlers.callback.CallbackAnswerHandler;
-import ru.live4code.note.bot.handlers.callback.CallbackHandler;
+import ru.live4code.note.bot.handlers.menu.CallbackHandler;
 import ru.live4code.note.bot.handlers.message.MessageHandler;
 
 @Slf4j
@@ -23,21 +22,18 @@ public class NoteBot extends TelegramLongPollingBot {
     private final StateDao stateDao;
     private final MessageHandler messageHandler;
     private final CallbackHandler callbackHandler;
-    private final CallbackAnswerHandler callbackAnswerHandler;
 
     @Autowired
     public NoteBot(
             @Value("${telegram.bot.token}") String botToken,
             StateDao stateDao,
             MessageHandler messageHandler,
-            CallbackHandler callbackHandler,
-            CallbackAnswerHandler callbackAnswerHandler
+            CallbackHandler callbackHandler
     ) {
         super(botToken);
         this.stateDao = stateDao;
         this.messageHandler = messageHandler;
         this.callbackHandler = callbackHandler;
-        this.callbackAnswerHandler = callbackAnswerHandler;
     }
 
     @Override
@@ -52,7 +48,7 @@ public class NoteBot extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
 
             if (stateDao.isUserWithState(chatId)) {
-                callbackAnswerHandler.performCallbackAnswer(update);
+                callbackHandler.performCallbackAnswer(update);
             } else {
                 messageHandler.performMessage(update);
             }

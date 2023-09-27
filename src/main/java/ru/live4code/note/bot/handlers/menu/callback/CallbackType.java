@@ -1,4 +1,4 @@
-package ru.live4code.note.bot.handlers.callback;
+package ru.live4code.note.bot.handlers.menu.callback;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
