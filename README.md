@@ -4,6 +4,8 @@
 
 Telegram-bot - for storing user notes, with the ability to share your notes with other users and create reminders.
 
+You can try it [here](https://t.me/enterprise_note_bot).
+
 ### Goals
 
 * ✅ Add basic functionality with storing user notes in a **List**;
