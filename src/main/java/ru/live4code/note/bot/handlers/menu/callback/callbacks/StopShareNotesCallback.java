@@ -56,6 +56,7 @@ public class StopShareNotesCallback implements Callback, CallbackAnswer {
 
         shareDao.deleteShare(userName, message);
         messageSenderService.sendMessage(chatId, String.format("Share was successfully disabled with user: '%s' \uD83E\uDD19", message));
+        messageSenderService.sendDeleteReplyMessage(chatId);
     }
 
     @Override

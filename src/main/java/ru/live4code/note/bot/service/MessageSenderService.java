@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageRe
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -70,6 +71,18 @@ public class MessageSenderService extends DefaultAbsSender {
             log.error("Error while sending message to user: %s", exception);
         }
 
+    }
+
+    public void sendDeleteReplyMessage(Long chatId) {
+
+        var message = new SendMessage();
+        message.setReplyMarkup(new ReplyKeyboardRemove());
+
+        try {
+            execute(message);
+        } catch (TelegramApiException exception){
+            log.error("Error while sending message to user: %s", exception);
+        }
     }
 
     public void sendMessage(Long chatId, String text) {

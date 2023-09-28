@@ -48,6 +48,7 @@ public class DeleteNoteCallback implements Callback, CallbackAnswer {
         noteDao.deleteNote(chatId, noteId);
         stateDao.deleteUserState(chatId);
         messageSenderService.sendMessage(chatId, String.format("Note with id: '%s', was deleted \uD83C\uDF8A", message));
+        messageSenderService.sendDeleteReplyMessage(chatId);
     }
 
     @Override
