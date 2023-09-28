@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ShareDao {
@@ -50,6 +52,18 @@ public class ShareDao {
                 new MapSqlParameterSource()
                         .addValue("shareUserName", shareUserName)
                         .addValue("readUserName", readUserName)
+        );
+    }
+
+    public List<String> getMyShares(String shareUserName) {
+        return namedParameterJdbcTemplate.query(
+                """
+                    select shareUserName
+                    from telegram.shares
+                    where shareUserName = :shareUserName
+                    """.trim(),
+                new MapSqlParameterSource("shareUserName", shareUserName),
+                (rs, rn) -> rs.getString("shareUserName")
         );
     }
 

@@ -59,12 +59,10 @@ public class MessageSenderService extends DefaultAbsSender {
 
     }
 
-    public void sendMessage(Long chatId, String text) {
+    public void sendMessageWithReplyKeyboard(Long chatId, String text, ReplyKeyboard keyboard) {
 
-        var message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText(text);
-        message.enableHtml(true);
+        var message = buildSendMessage(chatId, text);
+        message.setReplyMarkup(keyboard);
 
         try {
             execute(message);
@@ -72,6 +70,26 @@ public class MessageSenderService extends DefaultAbsSender {
             log.error("Error while sending message to user: %s", exception);
         }
 
+    }
+
+    public void sendMessage(Long chatId, String text) {
+
+        var message = buildSendMessage(chatId, text);
+
+        try {
+            execute(message);
+        } catch (TelegramApiException exception){
+            log.error("Error while sending message to user: %s", exception);
+        }
+
+    }
+
+    private SendMessage buildSendMessage(Long chatId, String text) {
+        var message = new SendMessage();
+        message.setChatId(chatId);
+        message.setText(text);
+        message.enableHtml(true);
+        return message;
     }
 
     private void sendEditMenu(Long chatId, Integer messageId, @Nullable String text, InlineKeyboardMarkup keyboard) {

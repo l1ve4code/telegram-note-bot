@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.live4code.note.bot.constant.ReplyKeyboardTemplates;
 import ru.live4code.note.bot.dao.ShareDao;
 import ru.live4code.note.bot.dao.StateDao;
 import ru.live4code.note.bot.dao.UserDao;
@@ -12,6 +13,8 @@ import ru.live4code.note.bot.handlers.menu.callback.CallbackAnswer;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
 import ru.live4code.note.bot.model.State;
 import ru.live4code.note.bot.service.MessageSenderService;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,9 +29,11 @@ public class StopShareNotesCallback implements Callback, CallbackAnswer {
     public void processCallback(Update update) {
         CallbackQuery callbackQuery = update.getCallbackQuery();
         Long chatId = callbackQuery.getMessage().getChatId();
+        String userName = callbackQuery.getFrom().getUserName();
+        List<String> myShares = shareDao.getMyShares(userName);
 
         stateDao.setUserState(chatId, State.STOP_SHARE_USERNAME_WAITING);
-        messageSenderService.sendMessage(chatId, "Write username below:");
+        messageSenderService.sendMessageWithReplyKeyboard(chatId, "Select username:", ReplyKeyboardTemplates.makeKeyboardFromList(myShares));
     }
 
     @Override
