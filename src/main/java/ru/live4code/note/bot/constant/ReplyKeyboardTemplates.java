@@ -18,6 +18,7 @@ public class ReplyKeyboardTemplates {
         return ReplyKeyboardMarkup.builder()
                 .keyboard(keyboardRows)
                 .oneTimeKeyboard(true)
+                .resizeKeyboard(true)
                 .build();
     }
 

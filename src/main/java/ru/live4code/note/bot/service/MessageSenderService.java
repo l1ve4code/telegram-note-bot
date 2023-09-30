@@ -73,10 +73,15 @@ public class MessageSenderService extends DefaultAbsSender {
 
     }
 
-    public void sendDeleteReplyMessage(Long chatId) {
+    public void sendDeleteReplyMessage(Long chatId, String text) {
+
+        var removeKeyboard = new ReplyKeyboardRemove();
+        removeKeyboard.setRemoveKeyboard(true);
 
         var message = new SendMessage();
-        message.setReplyMarkup(new ReplyKeyboardRemove());
+        message.setChatId(chatId);
+        message.setText(text);
+        message.setReplyMarkup(removeKeyboard);
 
         try {
             execute(message);
