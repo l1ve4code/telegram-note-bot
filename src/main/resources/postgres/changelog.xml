@@ -12,5 +12,6 @@
     <include file="table/states.sql" relativeToChangelogFile="true"/>
     <include file="table/users.sql" relativeToChangelogFile="true"/>
     <include file="table/shares.sql" relativeToChangelogFile="true"/>
+    <include file="table/notifications.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
