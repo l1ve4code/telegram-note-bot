@@ -13,6 +13,9 @@ public class InlineKeyboardTemplates {
                 .keyboardRow(List.of(
                         makeButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE.getCallbackType())
                 ))
+//                .keyboardRow(List.of(
+//                        makeButton("Create notification note \uD83D\uDCA1", CallbackType.CREATE_NOTIFICATION.getCallbackType())
+//                ))
                 .keyboardRow(List.of(
                         makeButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE.getCallbackType())
                 ))
@@ -31,12 +34,36 @@ public class InlineKeyboardTemplates {
                 .build();
     }
 
+    public static InlineKeyboardMarkup getTimeSelectMenu(int hour, int minute) {
+        return InlineKeyboardMarkup.builder()
+                .keyboardRow(List.of(
+                        makeButton("↑", formatTime(hour + 1, minute)),
+                        makeButton("↑", formatTime(hour, minute + 1))
+                ))
+                .keyboardRow(List.of(
+                        makeButton(String.valueOf(hour), CallbackType.UNKNOWN.getCallbackType()),
+                        makeButton(String.valueOf(minute), CallbackType.UNKNOWN.getCallbackType())
+                ))
+                .keyboardRow(List.of(
+                        makeButton("↓", formatTime(hour - 1, minute)),
+                        makeButton("↓", formatTime(hour, minute - 1))
+                ))
+                .keyboardRow(List.of(
+                        makeButton("OK", CallbackType.CREATE_NOTE.getCallbackType())
+                ))
+                .build();
+    }
+
     public static InlineKeyboardMarkup getReturnMenu() {
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
                         makeButton("<-", CallbackType.RETURN_TO_MENU.getCallbackType())
                 ))
                 .build();
+    }
+
+    private static String formatTime(int hour, int minute) {
+        return String.format("%s:%sT%s", CallbackType.NEW_NOTIFICATION_TIME.getCallbackType(), hour, minute);
     }
 
     private static InlineKeyboardButton makeButton(String text, String callbackData) {

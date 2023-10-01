@@ -13,7 +13,10 @@ public enum CallbackType {
     SHOW_NOTE("=show-note"),
     SHOW_USER_NOTES("=show-user-notes"),
     SHARE_NOTES("=share-notes"),
-    STOP_SHARE_NOTES("=stop-share-notes");
+    STOP_SHARE_NOTES("=stop-share-notes"),
+    CREATE_NOTIFICATION("=create-notification"),
+    NEW_NOTIFICATION_TIME("=new-notification-time"),
+    UNKNOWN("=unknown");
 
     private final String callbackType;
 

@@ -55,6 +55,19 @@ public class ShareDao {
         );
     }
 
+    public List<String> getUsersToShare(String shareUserName) {
+        return namedParameterJdbcTemplate.query(
+                """
+                    select u.userName
+                    from telegram.users u
+                    left join telegram.shares s on u.userName = s.readUserName
+                    where s.shareUserName != :shareUserName or s.shareUserName is null
+                    """.trim(),
+                new MapSqlParameterSource("shareUserName", shareUserName),
+                (rs, rn) -> rs.getString("userName")
+        );
+    }
+
     public List<String> getMyShares(String shareUserName) {
         return namedParameterJdbcTemplate.query(
                 """

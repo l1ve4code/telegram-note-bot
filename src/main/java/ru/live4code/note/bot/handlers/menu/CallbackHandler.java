@@ -23,7 +23,8 @@ public class CallbackHandler {
     public void performCallback(Update update) {
         CallbackQuery callbackQuery = update.getCallbackQuery();
         String callback = callbackQuery.getData();
-        CallbackType callbackType = CallbackType.fromString(callback);
+        String callbackMessage = callback.split(":")[0];
+        CallbackType callbackType = CallbackType.fromString(callbackMessage);
         callbacks.get(callbackType).processCallback(update);
     }
 
