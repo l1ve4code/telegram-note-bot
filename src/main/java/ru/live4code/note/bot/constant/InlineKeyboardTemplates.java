@@ -16,13 +16,13 @@ public class InlineKeyboardTemplates {
         return InlineKeyboardMarkup.builder()
                 .keyboard(
                         List.of(
-                                makeListButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE.getCallbackType()),
-                                makeListButton("Create notification note \uD83D\uDCA1", CallbackType.SHOW_NOTIFICATION_DATE.getCallbackType()),
-                                makeListButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE.getCallbackType()),
-                                makeListButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE.getCallbackType()),
-                                makeListButton("Show user notes \uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC66\u200D\uD83D\uDC66", CallbackType.SHOW_USER_NOTES.getCallbackType()),
-                                makeListButton("Share notes \uD83D\uDC65", CallbackType.SHARE_NOTES.getCallbackType()),
-                                makeListButton("Stop share notes \uD83D\uDED1", CallbackType.STOP_SHARE_NOTES.getCallbackType())
+                                makeListButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE),
+                                makeListButton("Create notification note \uD83D\uDCA1", CallbackType.SHOW_NOTIFICATION_DATE),
+                                makeListButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE),
+                                makeListButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE),
+                                makeListButton("Show user notes \uD83D\uDC40", CallbackType.SHOW_USER_NOTES),
+                                makeListButton("Share notes \uD83D\uDC65", CallbackType.SHARE_NOTES),
+                                makeListButton("Stop share notes \uD83D\uDED1", CallbackType.STOP_SHARE_NOTES)
                         )
                 )
                 .build();
@@ -72,7 +72,7 @@ public class InlineKeyboardTemplates {
     public static InlineKeyboardMarkup getReturnMenu() {
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
-                        makeButton("<-", CallbackType.RETURN_TO_MENU.getCallbackType())
+                        makeButton("<-", CallbackType.RETURN_TO_MENU)
                 ))
                 .build();
     }
@@ -81,13 +81,14 @@ public class InlineKeyboardTemplates {
 
         var keyboardButtons = new ArrayList<List<InlineKeyboardButton>>();
 
+        LocalDate dateToModify = date;
+
         var month = date.getMonth();
         int days = month.length(date.isLeapYear());
         int firstWeekDay = date.getDayOfWeek().getValue() - 1;
 
         int rows = ((days + firstWeekDay) % 7 > 0 ? 1 : 0) + (days + firstWeekDay) / 7;
 
-        LocalDate dateToModify = date;
         for (int i = 0; i < rows; i++) {
 
             var keyboardRow = new ArrayList<InlineKeyboardButton>();
@@ -100,7 +101,10 @@ public class InlineKeyboardTemplates {
             for (int j = firstWeekDay; j < 7; j++) {
                 if (dayOfMonth <= days && dateToModify.getMonth().equals(date.getMonth())) {
                     keyboardRow.add(
-                            makeButton(String.valueOf(dateToModify.getDayOfMonth()), formatDate(dateToModify, CallbackType.SELECT_NOTIFICATION_DATE))
+                            makeButton(
+                                    String.valueOf(dateToModify.getDayOfMonth()),
+                                    formatDate(dateToModify, CallbackType.SELECT_NOTIFICATION_DATE)
+                            )
                     );
                     dateToModify = dateToModify.plusDays(1);
                 } else {
@@ -124,17 +128,24 @@ public class InlineKeyboardTemplates {
     }
 
     private static InlineKeyboardButton makeUnknownButton(String text) {
-        return makeButton(text, CallbackType.UNKNOWN.getCallbackType());
+        return makeButton(text, CallbackType.UNKNOWN);
     }
 
-    private static List<InlineKeyboardButton> makeListButton(String text, String callbackData) {
-        return List.of(makeButton(text, callbackData));
+    private static List<InlineKeyboardButton> makeListButton(String text, CallbackType callbackType) {
+        return List.of(makeButton(text, callbackType));
     }
 
-    private static InlineKeyboardButton makeButton(String text, String callbackData) {
+    private static InlineKeyboardButton makeButton(String text, String callbackType) {
         return InlineKeyboardButton.builder()
                 .text(text)
-                .callbackData(callbackData)
+                .callbackData(callbackType)
+                .build();
+    }
+
+    private static InlineKeyboardButton makeButton(String text, CallbackType callbackType) {
+        return InlineKeyboardButton.builder()
+                .text(text)
+                .callbackData(callbackType.getCallbackType())
                 .build();
     }
 
