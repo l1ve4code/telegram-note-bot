@@ -14,7 +14,9 @@ You can try it [here](https://t.me/enterprise_note_bot).
 * ✅ Add the ability to automatically generate a table structure in the database for easy deployment of the project;
 * ✅ Add the ability to work with the bot using the **(reply/ inline) keyboard**;
 * ✅ Add the ability to share your notes with other users;
-* ❌ Add the ability to create notifications;
+* ✅ Add the ability to create notifications;
+* ❌ Add the ability to delete notifications;
+* ❌ Consider corner-cases;
 * ✅ Make a Dockerfile to run the project.
 
 ### Technologies
