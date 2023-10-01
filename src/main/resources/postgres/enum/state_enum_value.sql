@@ -11,3 +11,6 @@ alter type telegram.state_enum_value add value 'SHARE_USERNAME_WAITING';
 
 --changeset live4code:add-new-enum-value-to-state_enum_value_STOP_SHARE_USERNAME_WAITING
 alter type telegram.state_enum_value add value 'STOP_SHARE_USERNAME_WAITING';
+
+--changeset live4code:add-new-enum-value-to-state_enum_value_NOTIFICATION_NOTE_WAITING
+alter type telegram.state_enum_value add value 'NOTIFICATION_NOTE_WAITING';

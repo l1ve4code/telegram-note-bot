@@ -14,8 +14,11 @@ public enum CallbackType {
     SHOW_USER_NOTES("=show-user-notes"),
     SHARE_NOTES("=share-notes"),
     STOP_SHARE_NOTES("=stop-share-notes"),
-    CREATE_NOTIFICATION("=create-notification"),
     NEW_NOTIFICATION_TIME("=new-notification-time"),
+    NEW_NOTIFICATION_DATE("=new-notification-date"),
+    SELECT_NOTIFICATION_TIME("=select-notification-time"),
+    SELECT_NOTIFICATION_DATE("=select-notification-date"),
+    SHOW_NOTIFICATION_DATE("=show-notification-date"),
     UNKNOWN("=unknown");
 
     private final String callbackType;

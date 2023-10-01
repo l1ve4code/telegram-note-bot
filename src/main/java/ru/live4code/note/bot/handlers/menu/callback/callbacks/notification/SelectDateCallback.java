@@ -9,28 +9,28 @@ import ru.live4code.note.bot.handlers.menu.callback.Callback;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
 import ru.live4code.note.bot.service.MessageSenderService;
 
+import java.time.LocalTime;
+
 @Component
 @RequiredArgsConstructor
-public class NewHourCallback implements Callback {
+public class SelectDateCallback implements Callback {
 
     private final MessageSenderService messageSenderService;
 
     @Override
     public void processCallback(Update update) {
         CallbackQuery callbackQuery = update.getCallbackQuery();
-        Integer messageId = callbackQuery.getMessage().getMessageId();
         Long chatId = callbackQuery.getMessage().getChatId();
 
         String params = callbackQuery.getData().split(":")[1];
-        int hour = Integer.parseInt(params.split("T")[0]);
-        int minute = Integer.parseInt(params.split("T")[1]);
 
-        messageSenderService.editDefaultImageKeyboard(chatId, messageId, InlineKeyboardTemplates.getTimeSelectMenu(hour, minute));
+        messageSenderService.sendMessage(chatId, String.format("You selected '%s' date \uD83D\uDCC5", params));
+        messageSenderService.sendImageKeyboard(chatId, InlineKeyboardTemplates.getTimeSelectMenu(LocalTime.now()));
     }
 
     @Override
     public CallbackType getCallbackType() {
-        return CallbackType.NEW_NOTIFICATION_TIME;
+        return CallbackType.SELECT_NOTIFICATION_DATE;
     }
 
 }
