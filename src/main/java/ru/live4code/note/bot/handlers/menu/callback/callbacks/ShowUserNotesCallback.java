@@ -33,7 +33,10 @@ public class ShowUserNotesCallback implements Callback {
         String formattedNotes = sharedNotes.stream().map(SharedNote::toString).collect(Collectors.joining("\n"));
         String message = String.format("%s\n%s", MessageTemplates.SHARED_NOTES_TEMPLATE, formattedNotes);
         messageSenderService.editDefaultImageKeyboard(
-                chatId, messageId, message, InlineKeyboardTemplates.getReturnMenu()
+                chatId,
+                messageId,
+                sharedNotes.isEmpty() ? "No one shares notes with you \uD83D\uDE31" : message,
+                InlineKeyboardTemplates.getReturnMenu()
         );
     }
 

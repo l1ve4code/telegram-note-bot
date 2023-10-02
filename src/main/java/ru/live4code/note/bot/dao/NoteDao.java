@@ -54,6 +54,36 @@ public class NoteDao {
         );
     }
 
+    public boolean isNoteExists(Long chatId, Long noteId) {
+        return Boolean.TRUE.equals(namedParameterJdbcTemplate.queryForObject(
+                """
+                    select exists(
+                        select 1
+                        from telegram.notes
+                        where chatId = :chatId and id = :noteId
+                    )
+                    """.trim(),
+                new MapSqlParameterSource()
+                        .addValue("chatId", chatId)
+                        .addValue("noteId", noteId),
+                Boolean.class
+        ));
+    }
+
+    public boolean isNotesExists(Long chatId) {
+        return Boolean.TRUE.equals(namedParameterJdbcTemplate.queryForObject(
+                """
+                    select exists(
+                        select 1
+                        from telegram.notes
+                        where chatId = :chatId
+                    )
+                    """.trim(),
+                new MapSqlParameterSource("chatId", chatId),
+                Boolean.class
+        ));
+    }
+
     public List<SharedNote> getSharedNotes(String readUserName) {
         return namedParameterJdbcTemplate.query(
                 """

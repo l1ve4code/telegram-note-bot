@@ -25,7 +25,9 @@ public class ShowDateCallback implements Callback {
         Long chatId = callbackQuery.getMessage().getChatId();
         Integer messageId = callbackQuery.getMessage().getMessageId();
 
-        notificationDao.initNotification(chatId);
+        if (notificationDao.getIdLastNotFilledNotification(chatId) == null) {
+            notificationDao.initNotification(chatId);
+        }
         messageSenderService.editDefaultImageKeyboard(chatId, messageId, InlineKeyboardTemplates.getDateSelectMenu(LocalDate.now()));
     }
 

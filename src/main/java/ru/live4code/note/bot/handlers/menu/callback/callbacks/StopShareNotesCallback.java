@@ -32,6 +32,11 @@ public class StopShareNotesCallback implements Callback, CallbackAnswer {
         String userName = callbackQuery.getFrom().getUserName();
         List<String> myShares = shareDao.getMyShares(userName);
 
+        if (myShares.isEmpty()) {
+            messageSenderService.sendMessage(chatId, "You don't share notes with anyone \uD83E\uDD14");
+            return;
+        }
+
         stateDao.setUserState(chatId, State.STOP_SHARE_USERNAME_WAITING);
         messageSenderService.sendMessageWithReplyKeyboard(chatId, "Select username:", ReplyKeyboardTemplates.makeKeyboardFromList(myShares));
     }
@@ -45,7 +50,7 @@ public class StopShareNotesCallback implements Callback, CallbackAnswer {
         stateDao.deleteUserState(chatId);
 
         if (!userDao.checkUserExists(message)) {
-            messageSenderService.sendMessage(chatId, String.format("I don't know this user: '%s' \uD83E\uDD14", message));
+            messageSenderService.sendDeleteReplyMessage(chatId, String.format("I don't know this user: '%s' \uD83E\uDD14", message));
             return;
         }
 

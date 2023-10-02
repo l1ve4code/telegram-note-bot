@@ -32,7 +32,10 @@ public class ShowNoteCallback implements Callback {
         String formattedNotes = userNote.stream().map(Note::toString).collect(Collectors.joining("\n"));
         String message = String.format("%s\n%s", MessageTemplates.NOTES_TEMPLATE, formattedNotes);
         messageSenderService.editDefaultImageKeyboard(
-                chatId, messageId, message, InlineKeyboardTemplates.getReturnMenu()
+                chatId,
+                messageId,
+                userNote.isEmpty() ? "It's empty \uD83D\uDE31" : message,
+                InlineKeyboardTemplates.getReturnMenu()
         );
     }
 

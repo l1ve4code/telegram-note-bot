@@ -29,6 +29,11 @@ public class DeleteNoteCallback implements Callback, CallbackAnswer {
         Long chatId = callbackQuery.getMessage().getChatId();
         List<String> noteIds = noteDao.getNotes(chatId).stream().map(item -> String.valueOf(item.id())).toList();
 
+        if (!noteDao.isNotesExists(chatId)) {
+            messageSenderService.sendMessage(chatId, "You don't have notes \uD83E\uDD7A");
+            return;
+        }
+
         stateDao.setUserState(chatId, State.DELETE_NOTE_WAITING);
         messageSenderService.sendMessageWithReplyKeyboard(chatId, "Select note-id:", ReplyKeyboardTemplates.makeKeyboardFromList(noteIds));
     }
@@ -42,9 +47,15 @@ public class DeleteNoteCallback implements Callback, CallbackAnswer {
         try {
             noteId = Long.parseLong(message);
         } catch (NumberFormatException exception) {
-            messageSenderService.sendMessage(chatId, "Please write only number \uD83E\uDD7A");
+            messageSenderService.sendMessage(chatId, "Please use only number \uD83E\uDD7A");
             return;
         }
+
+        if (!noteDao.isNoteExists(chatId, noteId)) {
+            messageSenderService.sendMessage(chatId, "I don't know this note \uD83E\uDD7A");
+            return;
+        }
+
         noteDao.deleteNote(chatId, noteId);
         stateDao.deleteUserState(chatId);
         messageSenderService.sendDeleteReplyMessage(chatId, String.format("Note with id: '%s', was deleted \uD83C\uDF8A", message));
