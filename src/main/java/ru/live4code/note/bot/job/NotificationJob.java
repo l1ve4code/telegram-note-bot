@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.live4code.note.bot.dao.NotificationDao;
-import ru.live4code.note.bot.model.Notification;
+import ru.live4code.note.bot.model.NotificationToSend;
 import ru.live4code.note.bot.service.MessageSenderService;
 
 import java.time.LocalDateTime;
@@ -21,11 +21,11 @@ public class NotificationJob {
     public void execute() {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        List<Notification> notifications = notificationDao.getNotificationToSend(currentDateTime);
+        List<NotificationToSend> notifications = notificationDao.getNotificationToSend(currentDateTime);
 
         notifications.forEach(item -> messageSenderService.sendMessage(item.chatId(), item.notification()));
 
-        notificationDao.markNotificationSent(notifications.stream().map(Notification::id).toList());
+        notificationDao.markNotificationSent(notifications.stream().map(NotificationToSend::id).toList());
     }
 
 }

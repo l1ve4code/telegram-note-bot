@@ -19,6 +19,8 @@ public enum CallbackType {
     SELECT_NOTIFICATION_TIME("=select-notification-time"),
     SELECT_NOTIFICATION_DATE("=select-notification-date"),
     SHOW_NOTIFICATION_DATE("=show-notification-date"),
+    SHOW_NOTIFICATION("=show-notification"),
+    DELETE_NOTIFICATION("=delete-notification"),
     UNKNOWN("=unknown");
 
     private final String callbackType;

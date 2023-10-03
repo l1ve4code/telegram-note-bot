@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.live4code.note.bot.model.Notification;
+import ru.live4code.note.bot.model.NotificationToSend;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -92,7 +93,27 @@ public class NotificationDao {
         );
     }
 
-    public List<Notification> getNotificationToSend(LocalDateTime dateTime) {
+    public List<Notification> getActualUserNotifications(Long chatId, LocalDateTime dateTime) {
+        return namedParameterJdbcTemplate.query(
+                """
+                        select id, notification, (time + date)::timestamp as dateTime
+                        from telegram.notifications
+                        where
+                            notification is not null
+                            and chatId = :chatId
+                            and date >= :date
+                            and time >= :time
+                            and isSent is false
+                        """.trim(),
+                new MapSqlParameterSource()
+                        .addValue("chatId", chatId)
+                        .addValue("date", dateTime.toLocalDate())
+                        .addValue("time", dateTime.toLocalTime()),
+                (rs, rn) -> new Notification(rs.getLong("id"), rs.getTimestamp("dateTime").toLocalDateTime(), rs.getString("notification"))
+        );
+    }
+
+    public List<NotificationToSend> getNotificationToSend(LocalDateTime dateTime) {
         return namedParameterJdbcTemplate.query(
                 """
                     select id, chatId, notification
@@ -102,7 +123,7 @@ public class NotificationDao {
                 new MapSqlParameterSource()
                         .addValue("date", dateTime.toLocalDate())
                         .addValue("time", dateTime.toLocalTime()),
-                (rs, rn) -> new Notification(rs.getLong("id"), rs.getLong("chatId"), rs.getString("notification"))
+                (rs, rn) -> new NotificationToSend(rs.getLong("id"), rs.getLong("chatId"), rs.getString("notification"))
         );
     }
 

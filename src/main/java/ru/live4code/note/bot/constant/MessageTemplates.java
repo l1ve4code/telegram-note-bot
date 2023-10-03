@@ -24,6 +24,10 @@ public class MessageTemplates {
             Here your recent added notes 👀
             """;
 
+    public final static String NOTIFICATIONS_TEMPLATE = """
+            Here your recent added notifications 👀
+            """;
+
     public final static String SHARED_NOTES_TEMPLATE = """
             Here users shared notes 👀
             """;
