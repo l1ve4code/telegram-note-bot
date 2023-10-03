@@ -19,6 +19,7 @@ public class InlineKeyboardTemplates {
                                 makeListButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE),
                                 makeListButton("Create notification note \uD83D\uDCA1", CallbackType.SHOW_NOTIFICATION_DATE),
                                 makeListButton("Show my notifications \uD83D\uDEA8", CallbackType.SHOW_NOTIFICATION),
+                                makeListButton("Delete notification \uD83D\uDDD1", CallbackType.DELETE_NOTIFICATION),
                                 makeListButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE),
                                 makeListButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE),
                                 makeListButton("Show user notes \uD83D\uDC40", CallbackType.SHOW_USER_NOTES),

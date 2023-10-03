@@ -93,6 +93,34 @@ public class NotificationDao {
         );
     }
 
+    public void deleteNotification(Long chatId, Long notificationId) {
+        namedParameterJdbcTemplate.update(
+                """
+                    delete from telegram.notifications
+                    where chatId = :chatId and id = :id
+                    """.trim(),
+                new MapSqlParameterSource()
+                        .addValue("chatId", chatId)
+                        .addValue("id", notificationId)
+        );
+    }
+
+    public boolean isNotificationExists(Long chatId, Long notificationId) {
+        return Boolean.TRUE.equals(namedParameterJdbcTemplate.queryForObject(
+                """
+                    select exists(
+                        select 1
+                        from telegram.notifications
+                        where chatId = :chatId and id = :id
+                    )
+                    """.trim(),
+                new MapSqlParameterSource()
+                        .addValue("chatId", chatId)
+                        .addValue("id", notificationId),
+                Boolean.class
+        ));
+    }
+
     public List<Notification> getActualUserNotifications(Long chatId, LocalDateTime dateTime) {
         return namedParameterJdbcTemplate.query(
                 """
