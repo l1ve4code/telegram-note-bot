@@ -21,6 +21,9 @@ public enum CallbackType {
     SHOW_NOTIFICATION_DATE("=show-notification-date"),
     SHOW_NOTIFICATION("=show-notification"),
     DELETE_NOTIFICATION("=delete-notification"),
+    SHOW_NOTE_ACTIONS("=show-note-actions"),
+    SHOW_NOTIFICATION_ACTIONS("=show-notification-actions"),
+    SHOW_SHARE_ACTIONS("=show-share-actions"),
     UNKNOWN("=unknown");
 
     private final String callbackType;

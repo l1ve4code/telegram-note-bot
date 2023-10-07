@@ -9,6 +9,7 @@ import ru.live4code.note.bot.constant.MessageTemplates;
 import ru.live4code.note.bot.dao.NoteDao;
 import ru.live4code.note.bot.handlers.menu.callback.Callback;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
+import ru.live4code.note.bot.model.MenuType;
 import ru.live4code.note.bot.model.Note;
 import ru.live4code.note.bot.service.MessageSenderService;
 
@@ -35,7 +36,7 @@ public class ShowNoteCallback implements Callback {
                 chatId,
                 messageId,
                 userNote.isEmpty() ? "It's empty \uD83D\uDE31" : message,
-                InlineKeyboardTemplates.getReturnMenu()
+                InlineKeyboardTemplates.getReturnMenu(MenuType.NOTES)
         );
     }
 

@@ -9,6 +9,7 @@ import ru.live4code.note.bot.constant.MessageTemplates;
 import ru.live4code.note.bot.dao.NotificationDao;
 import ru.live4code.note.bot.handlers.menu.callback.Callback;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
+import ru.live4code.note.bot.model.MenuType;
 import ru.live4code.note.bot.model.Notification;
 import ru.live4code.note.bot.service.MessageSenderService;
 
@@ -37,7 +38,7 @@ public class ShowNotificationCallback implements Callback {
                 chatId,
                 messageId,
                 userNotifications.isEmpty() ? "You didn't create notifications \uD83D\uDE31" : message,
-                InlineKeyboardTemplates.getReturnMenu()
+                InlineKeyboardTemplates.getReturnMenu(MenuType.NOTIFICATIONS)
         );
     }
 

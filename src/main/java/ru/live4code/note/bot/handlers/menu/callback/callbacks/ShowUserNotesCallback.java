@@ -9,6 +9,7 @@ import ru.live4code.note.bot.constant.MessageTemplates;
 import ru.live4code.note.bot.dao.NoteDao;
 import ru.live4code.note.bot.handlers.menu.callback.Callback;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
+import ru.live4code.note.bot.model.MenuType;
 import ru.live4code.note.bot.model.SharedNote;
 import ru.live4code.note.bot.service.MessageSenderService;
 
@@ -36,7 +37,7 @@ public class ShowUserNotesCallback implements Callback {
                 chatId,
                 messageId,
                 sharedNotes.isEmpty() ? "No one shares notes with you \uD83D\uDE31" : message,
-                InlineKeyboardTemplates.getReturnMenu()
+                InlineKeyboardTemplates.getReturnMenu(MenuType.SHARES)
         );
     }
 

@@ -3,6 +3,7 @@ package ru.live4code.note.bot.constant;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.live4code.note.bot.handlers.menu.callback.CallbackType;
+import ru.live4code.note.bot.model.MenuType;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,15 +17,48 @@ public class InlineKeyboardTemplates {
         return InlineKeyboardMarkup.builder()
                 .keyboard(
                         List.of(
+                                makeListButton("Note action's", CallbackType.SHOW_NOTE_ACTIONS),
+                                makeListButton("Notification action's", CallbackType.SHOW_NOTIFICATION_ACTIONS),
+                                makeListButton("Share action's", CallbackType.SHOW_SHARE_ACTIONS)
+                        )
+                )
+                .build();
+    }
+
+    public static InlineKeyboardMarkup getNoteActions() {
+        return InlineKeyboardMarkup.builder()
+                .keyboard(
+                        List.of(
                                 makeListButton("Create note \uD83D\uDD8B", CallbackType.CREATE_NOTE),
+                                makeListButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE),
+                                makeListButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE),
+                                makeListButton("<-", formatReturnMenu(MenuType.MAIN))
+                        )
+                )
+                .build();
+    }
+
+    public static InlineKeyboardMarkup getNotificationActions() {
+        return InlineKeyboardMarkup.builder()
+                .keyboard(
+                        List.of(
                                 makeListButton("Create notification note \uD83D\uDCA1", CallbackType.SHOW_NOTIFICATION_DATE),
                                 makeListButton("Show my notifications \uD83D\uDEA8", CallbackType.SHOW_NOTIFICATION),
                                 makeListButton("Delete notification \uD83D\uDDD1", CallbackType.DELETE_NOTIFICATION),
-                                makeListButton("Delete note \uD83D\uDDD1", CallbackType.DELETE_NOTE),
-                                makeListButton("Show my notes \uD83D\uDC40", CallbackType.SHOW_NOTE),
-                                makeListButton("Show user notes \uD83D\uDC40", CallbackType.SHOW_USER_NOTES),
+                                makeListButton("<-", formatReturnMenu(MenuType.MAIN))
+                        )
+                )
+                .build();
+    }
+
+    public static InlineKeyboardMarkup getShareActions() {
+        return InlineKeyboardMarkup.builder()
+                .keyboard(
+                        List.of(
                                 makeListButton("Share notes \uD83D\uDC65", CallbackType.SHARE_NOTES),
-                                makeListButton("Stop share notes \uD83D\uDED1", CallbackType.STOP_SHARE_NOTES)
+                                makeListButton("Show user notes \uD83D\uDC40", CallbackType.SHOW_USER_NOTES),
+                                makeListButton("Stop share notes \uD83D\uDED1", CallbackType.STOP_SHARE_NOTES),
+                                makeListButton("<-", formatReturnMenu(MenuType.MAIN))
                         )
                 )
                 .build();
@@ -71,10 +105,10 @@ public class InlineKeyboardTemplates {
                 .build();
     }
 
-    public static InlineKeyboardMarkup getReturnMenu() {
+    public static InlineKeyboardMarkup getReturnMenu(MenuType menuType) {
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
-                        makeButton("<-", CallbackType.RETURN_TO_MENU)
+                        makeButton("<-", formatReturnMenu(menuType))
                 ))
                 .build();
     }
@@ -129,11 +163,19 @@ public class InlineKeyboardTemplates {
         return String.format("%s:%s", callbackType.getCallbackType(), time.format(DateTimeFormatter.ofPattern("HH mm")));
     }
 
+    private static String formatReturnMenu(MenuType menuType) {
+        return String.format("%s:%s", CallbackType.RETURN_TO_MENU.getCallbackType(), menuType.getMenuType());
+    }
+
     private static InlineKeyboardButton makeUnknownButton(String text) {
         return makeButton(text, CallbackType.UNKNOWN);
     }
 
     private static List<InlineKeyboardButton> makeListButton(String text, CallbackType callbackType) {
+        return List.of(makeButton(text, callbackType));
+    }
+
+    private static List<InlineKeyboardButton> makeListButton(String text, String callbackType) {
         return List.of(makeButton(text, callbackType));
     }
 
@@ -145,10 +187,7 @@ public class InlineKeyboardTemplates {
     }
 
     private static InlineKeyboardButton makeButton(String text, CallbackType callbackType) {
-        return InlineKeyboardButton.builder()
-                .text(text)
-                .callbackData(callbackType.getCallbackType())
-                .build();
+        return makeButton(text, callbackType.getCallbackType());
     }
 
 }
