@@ -6,6 +6,9 @@ Telegram-bot - for storing user notes, with the ability to share your notes with
 
 You can try it [here](https://t.me/enterprise_note_bot).
 
+| <img src="git-resources/notes.gif"> | <img src="git-resources/notifications.gif"> | <img src="git-resources/shares.gif"> |
+|-------------------------------------|---------------------------------------------|--------------------------------------|
+
 ### Goals
 
 * ✅ Add basic functionality with storing user notes in a **List**;

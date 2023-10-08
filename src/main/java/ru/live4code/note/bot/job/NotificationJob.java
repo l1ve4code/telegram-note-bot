@@ -23,7 +23,11 @@ public class NotificationJob {
 
         List<NotificationToSend> notifications = notificationDao.getNotificationToSend(currentDateTime);
 
-        notifications.forEach(item -> messageSenderService.sendMessage(item.chatId(), item.notification()));
+        notifications.forEach(item -> messageSenderService.sendMessage(
+                        item.chatId(),
+                        String.format("[NOTIFICATION] %s", item.notification())
+                )
+        );
 
         notificationDao.markNotificationSent(notifications.stream().map(NotificationToSend::id).toList());
     }
