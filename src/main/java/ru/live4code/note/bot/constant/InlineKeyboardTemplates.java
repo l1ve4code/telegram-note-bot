@@ -64,9 +64,23 @@ public class InlineKeyboardTemplates {
                 .build();
     }
 
-    public static InlineKeyboardMarkup getDateSelectMenu(LocalDate date) {
-        var dateButtons = makeDateButtons(date);
-        var dateTitle = String.format("%s %s", date.getMonth(), date.getYear());
+    public static InlineKeyboardMarkup getDateSelectMenu(LocalDate calendarDate) {
+
+        LocalDate currentDate = LocalDate.now();
+        boolean isCurrentMonth = calendarDate.getMonth().equals(currentDate.getMonth());
+
+        var dateButtons = makeDateButtons(calendarDate, isCurrentMonth);
+        var dateTitle = String.format("%s %s", calendarDate.getMonth(), calendarDate.getYear());
+
+        var switchDateControls = new ArrayList<>(List.of(
+                makeUnknownButton(" "),
+                makeButton("→", formatDate(calendarDate.plusMonths(1L), CallbackType.NEW_NOTIFICATION_DATE))
+        ));
+
+        if (!isCurrentMonth) {
+            switchDateControls.add(0, makeButton("←", formatDate(calendarDate.minusMonths(1L), CallbackType.NEW_NOTIFICATION_DATE)));
+        }
+
         return InlineKeyboardMarkup.builder()
                 .keyboardRow(List.of(
                         makeUnknownButton(dateTitle)
@@ -77,11 +91,7 @@ public class InlineKeyboardTemplates {
                         makeUnknownButton("Sun")
                 ))
                 .keyboard(dateButtons)
-                .keyboardRow(List.of(
-                        makeButton("←", formatDate(date.minusMonths(1L), CallbackType.NEW_NOTIFICATION_DATE)),
-                        makeUnknownButton(" "),
-                        makeButton("→", formatDate(date.plusMonths(1L), CallbackType.NEW_NOTIFICATION_DATE))
-                ))
+                .keyboardRow(switchDateControls)
                 .build();
     }
 
@@ -113,15 +123,15 @@ public class InlineKeyboardTemplates {
                 .build();
     }
 
-    private static List<List<InlineKeyboardButton>> makeDateButtons(LocalDate date) {
+    private static List<List<InlineKeyboardButton>> makeDateButtons(LocalDate calendarDate, boolean isCurrentMonth) {
 
         var keyboardButtons = new ArrayList<List<InlineKeyboardButton>>();
 
-        LocalDate dateToModify = date.withDayOfMonth(1);
+        LocalDate dateToModify = isCurrentMonth ? calendarDate : calendarDate.withDayOfMonth(1);
 
-        var month = date.getMonth();
-        int days = month.length(date.isLeapYear());
-        int firstWeekDay = date.getDayOfWeek().getValue() - 1;
+        var month = calendarDate.getMonth();
+        int days = month.length(calendarDate.isLeapYear());
+        int firstWeekDay = calendarDate.getDayOfWeek().getValue() - 1;
 
         int rows = ((days + firstWeekDay) % 7 > 0 ? 1 : 0) + (days + firstWeekDay) / 7;
 
@@ -135,7 +145,7 @@ public class InlineKeyboardTemplates {
             }
 
             for (int j = firstWeekDay; j < 7; j++) {
-                if (dayOfMonth <= days && dateToModify.getMonth().equals(date.getMonth())) {
+                if (dayOfMonth <= days && dateToModify.getMonth().equals(calendarDate.getMonth())) {
                     keyboardRow.add(
                             makeButton(
                                     String.valueOf(dateToModify.getDayOfMonth()),
