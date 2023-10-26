@@ -117,7 +117,7 @@ public class InlineKeyboardTemplates {
 
         var keyboardButtons = new ArrayList<List<InlineKeyboardButton>>();
 
-        LocalDate dateToModify = date;
+        LocalDate dateToModify = date.withDayOfMonth(1);
 
         var month = date.getMonth();
         int days = month.length(date.isLeapYear());
